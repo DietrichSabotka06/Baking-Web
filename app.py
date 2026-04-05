@@ -1,11 +1,9 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import sqlite3
-import os
 
 app = Flask(__name__)
 
 DB = "recipes.db"
-RECIPE_FOLDER = "recipes"
 
 def init_db():
     conn = sqlite3.connect(DB)
@@ -31,19 +29,18 @@ def get_recipes():
     conn = sqlite3.connect(DB)
     c = conn.cursor()
     c.execute("SELECT * FROM recipes")
-    data = c.fetchall()
+    rows = c.fetchall()
     conn.close()
 
-    recipes = []
-    for r in data:
-        recipes.append({
+    return jsonify([
+        {
             "id": r[0],
             "title": r[1],
             "image": r[2],
             "link": r[3],
             "file": r[4]
-        })
-    return jsonify(recipes)
+        } for r in rows
+    ])
 
 @app.route("/api/add", methods=["POST"])
 def add_recipe():
@@ -51,8 +48,10 @@ def add_recipe():
 
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute("INSERT INTO recipes (title, image, link, file_path) VALUES (?, ?, ?, ?)",
-              (data["title"], data["image"], data["link"], data["file"]))
+    c.execute(
+        "INSERT INTO recipes (title, image, link, file_path) VALUES (?, ?, ?, ?)",
+        (data["title"], data["image"], data["link"], data["file"])
+    )
     conn.commit()
     conn.close()
 
@@ -60,7 +59,7 @@ def add_recipe():
 
 @app.route("/recipes/<path:filename>")
 def serve_recipe(filename):
-    return app.send_static_file(f"../recipes/{filename}")
+    return send_from_directory("recipes", filename)
 
 if __name__ == "__main__":
     init_db()
