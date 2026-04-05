@@ -13,8 +13,12 @@ async function loadRecipes() {
       <a href="${r.link}" target="_blank">
         <img src="${r.image}">
       </a>
+
       <h3>${r.title}</h3>
-      <a href="/recipes/${r.file}" target="_blank">Open Recipe File</a>
+
+      <a class="file-link" href="/recipes/${r.file}" target="_blank">
+        Open File
+      </a>
     `;
 
     grid.appendChild(div);
@@ -35,6 +39,10 @@ async function addRecipe() {
     body: JSON.stringify(data)
   });
 
+  loadRecipes();
+}
+
+loadRecipes();
   loadRecipes();
 }
 
