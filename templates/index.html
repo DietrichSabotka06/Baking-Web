@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Recipe Catalog</title>
+  <meta charset="UTF-8">
+  <title>My Recipes</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 
-<h1>My Recipes</h1>
+<header>
+  <h1>My Favorite Recipes</h1>
+  <p class="subtitle">Our Creations</p>
+</header>
 
-<div id="recipe-grid"></div>
+<section id="recipe-grid"></section>
 
-<h2>Add Recipe</h2>
-<input id="title" placeholder="Title">
-<input id="image" placeholder="Image URL">
-<input id="link" placeholder="External Link">
-<input id="file" placeholder="Local File Name (example.pdf)">
-<button onclick="addRecipe()">Add</button>
+<section class="form-section">
+  <h2>Add Recipe</h2>
+  <input id="title" placeholder="Title">
+  <input id="image" placeholder="Image URL">
+  <input id="link" placeholder="External Link">
+  <input id="file" placeholder="Local File (example.pdf)">
+  <button onclick="addRecipe()">Add Recipe</button>
+</section>
 
 <script src="/static/script.js"></script>
 </body>
